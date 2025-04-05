@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1><i class="fas fa-gamepad"></i> Memory Card Game</h1>
+            <p class="tagline">Match pairs of cards to win!</p>
+        </header>
+
+        <div class="game-stats">
+            <div class="stat-box">
+                <i class="fas fa-star"></i>
+                <p>Score: <span id="score">0</span></p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-fire"></i>
+                <p>Streak: <span id="streak">0</span></p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-clock"></i>
+                <p>Time: <span id="timer">60</span>s</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-check"></i>
+                <p>Matches: <span id="matches-found">0</span>/26</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-redo"></i>
+                <p>Attempts: <span id="attempts">0</span></p>
+            </div>
+        </div>
+
+        <div class="memory-game-container">
+            <div class="memory-grid" id="memory-grid">
+                <!-- Cards will be added dynamically -->
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button id="new-game" class="control-button">
+                <i class="fas fa-play"></i> New Game
+            </button>
+            <button id="toggle-sound" class="control-button">
+                <i class="fas fa-volume-up"></i> Sound
+            </button>
+        </div>
+
+        <div id="game-over" class="hidden">
+            <h2>Game Over!</h2>
+            <div class="final-score">
+                <p>Final Score: <span id="final-score">0</span></p>
+                <p>Matches Found: <span id="final-matches">0</span>/26</p>
+                <p>Best Streak: <span id="best-streak">0</span></p>
+                <p>Total Attempts: <span id="total-attempts">0</span></p>
+            </div>
+            <button onclick="startNewGame()" class="play-again-button">
+                <i class="fas fa-play"></i> Play Again
+            </button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
