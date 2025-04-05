@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Neurodiversity Learning Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .profile-email {
+            color: var(--text-muted);
+            margin: 0.5rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--background-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .scores-section {
+            margin-top: 2rem;
+        }
+
+        .scores-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .scores-table th,
+        .scores-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .scores-table th {
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(220, 53, 69, 0.1);
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <div class="profile-container">
+            <div id="loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading profile...
+            </div>
+
+            <div id="error-message" class="error-message" style="display: none;"></div>
+
+            <div id="profile-content" style="display: none;">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name" id="user-name">Loading...</h1>
+                        <p class="profile-email" id="user-email">Loading...</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-games">0</div>
+                        <div class="stat-label">Games Played</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="average-score">0</div>
+                        <div class="stat-label">Average Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="high-score">0</div>
+                        <div class="stat-label">Highest Score</div>
+                    </div>
+                </div>
+
+                <div class="scores-section">
+                    <h2>Recent Scores</h2>
+                    <table class="scores-table">
+                        <thead>
+                            <tr>
+                                <th>Game</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scores-table-body">
+                            <!-- Scores will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+    <script type="module">
+        import { getCurrentUser, getUserScores, isAuthenticated } from './js/main.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const profileContent = document.getElementById('profile-content');
+
+            try {
+                // Check if user is authenticated
+                if (!isAuthenticated()) {
+                    window.location.href = 'auth.html';
+                    return;
+                }
+
+                // Get user data
+                const user = getCurrentUser();
+                document.getElementById('user-name').textContent = user.name;
+                document.getElementById('user-email').textContent = user.email;
+
+                // Get user scores
+                const scores = await getUserScores();
+                
+                if (scores && scores.length > 0) {
+                    // Calculate statistics
+                    const totalGames = scores.length;
+                    const averageScore = Math.round(scores.reduce((acc, curr) => acc + curr.score, 0) / totalGames);
+                    const highScore = Math.max(...scores.map(s => s.score));
+
+                    // Update statistics
+                    document.getElementById('total-games').textContent = totalGames;
+                    document.getElementById('average-score').textContent = averageScore;
+                    document.getElementById('high-score').textContent = highScore;
+
+                    // Update scores table
+                    const tableBody = document.getElementById('scores-table-body');
+                    tableBody.innerHTML = scores
+                        .sort((a, b) => new Date(b.date) - new Date(a.date))
+                        .slice(0, 10)
+                        .map(score => `
+                            <tr>
+                                <td>${score.game}</td>
+                                <td>${score.score}</td>
+                                <td>${new Date(score.date).toLocaleDateString()}</td>
+                            </tr>
+                        `)
+                        .join('');
+                }
+
+                // Show profile content
+                loading.style.display = 'none';
+                profileContent.style.display = 'block';
+            } catch (error) {
+                loading.style.display = 'none';
+                errorMessage.textContent = 'Failed to load profile data. Please try again later.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

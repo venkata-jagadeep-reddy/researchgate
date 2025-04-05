@@ -114,13 +114,7 @@ const speechSynthesis = window.speechSynthesis;
 
 // Memory Game Data
 const memoryCards = [
-    '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼',
-    '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🦄',
-    '🐔', '🐧', '🦆', '🦅', '🦉', '🦇', '🐺', '🐗',
-    '🐴', '🦋', '🐛', '🐜', '🐝', '🐞', '🦗', '🕷️',
-    '🦂', '🦀', '🐠', '🐟', '🐡', '🦈', '🐋', '🐳',
-    '🐊', '🐅', '🐆', '🦓', '🦍', '🦧', '🐘', '🦛',
-    '🦘', '🐪', '🐫', '🦒', '🦬', '🐃', '🐂', '🐄'
+    '🐶', '🐱', '🐭', '🐹'
 ];
 
 let flippedCards = [];
@@ -522,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Initialize hint button
-    document.getElementById('hint-button').addEventListener('click', () => {
+    document.getElementById('hint-button')?.addEventListener('click', () => {
         const currentWord = gameData[currentGameMode][0];
         showFeedback(currentWord.hint, 'hint');
     });
