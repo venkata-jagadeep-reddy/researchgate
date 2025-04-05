@@ -31,7 +31,11 @@ const apiRequest = async (endpoint, options = {}) => {
 // Check server health
 export const checkServerHealth = async () => {
     try {
-        const data = await apiRequest(API_ENDPOINTS.health);
+        const response = await fetch(API_ENDPOINTS.health);
+        if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
+        const data = await response.json();
         console.log('Server health check:', data);
         return data.status === 'ok';
     } catch (error) {

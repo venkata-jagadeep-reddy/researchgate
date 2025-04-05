@@ -9,8 +9,10 @@ const scoreRoutes = require('./routes/scoreRoutes');
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Try to connect to MongoDB, but don't block server startup
+connectDB().catch(err => {
+    console.log('Warning: Could not connect to MongoDB. Some features may not work.');
+});
 
 // CORS configuration
 const corsOptions = {
@@ -34,6 +36,10 @@ app.get('/api/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, (err) => {
+    if (err) {
+        console.error('Error starting server:', err);
+        return;
+    }
     console.log(`Server is running on port ${PORT}`);
 }); 

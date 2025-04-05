@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Check if server is running
     const serverRunning = await checkServerHealth();
     if (!serverRunning) {
-        console.warn('Server is not running. Some features may not work properly.');
+        showServerError();
     }
     
     // Check if all apps are available
@@ -77,6 +77,48 @@ function updateThemeIcon(theme) {
         icon.classList.remove('fa-sun');
         icon.classList.add('fa-moon');
     }
+}
+
+function showServerError() {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'server-error';
+    errorDiv.innerHTML = `
+        <div class="error-content">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>Server is not running. Please start the server to use all features.</span>
+        </div>
+    `;
+    document.body.appendChild(errorDiv);
+
+    // Add styles for the error message
+    const style = document.createElement('style');
+    style.textContent = `
+        .server-error {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4444;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+        }
+        .error-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .server-error i {
+            font-size: 1.2em;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 function checkAppAvailability() {
