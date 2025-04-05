@@ -164,15 +164,18 @@
                 <button type="submit" class="submit-button">Register</button>
             </form>
             
-            <a href="get-started.html" class="back-link">
-                <i class="fas fa-arrow-left"></i> Back to Get Started
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
             </a>
         </div>
     </div>
 
-    <script src="script.js" type="module"></script>
     <script type="module">
-        import { loginUser, registerUser, checkServerHealth } from './js/main.js';
+        import { loginUser, registerUser, checkServerHealth } from './js/auth.js';
+        import { initTheme } from './js/theme.js';
+        
+        // Initialize theme
+        initTheme();
         
         // Check if server is running
         document.addEventListener('DOMContentLoaded', async () => {
@@ -180,72 +183,96 @@
             if (!serverRunning) {
                 alert('Server is not running. Please start the server and try again.');
             }
+            
+            // Initialize tab switching
+            initializeTabs();
+            
+            // Initialize form submissions
+            initializeForms();
         });
         
         // Tab switching
-        const tabs = document.querySelectorAll('.auth-tab');
-        const forms = document.querySelectorAll('.auth-form');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetForm = tab.dataset.tab;
-                
-                tabs.forEach(t => t.classList.remove('active'));
-                forms.forEach(f => f.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(`${targetForm}-form`).classList.add('active');
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const forms = document.querySelectorAll('.auth-form');
+            
+            // Make sure register tab is clickable
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetForm = tab.getAttribute('data-tab');
+                    console.log('Tab clicked:', targetForm); // Debug log
+                    
+                    // Remove active class from all tabs and forms
+                    tabs.forEach(t => t.classList.remove('active'));
+                    forms.forEach(f => f.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding form
+                    tab.classList.add('active');
+                    const form = document.getElementById(`${targetForm}-form`);
+                    if (form) {
+                        form.classList.add('active');
+                        console.log('Form activated:', targetForm); // Debug log
+                    } else {
+                        console.error('Form not found:', `${targetForm}-form`);
+                    }
+                });
             });
-        });
+        }
         
         // Form submission
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+        function initializeForms() {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
             
-            // Clear previous error messages
-            document.getElementById('login-password-error').style.display = 'none';
-            
-            const result = await loginUser({ email, password });
-            
-            if (result.success) {
-                window.location.href = 'index.html';
-            } else {
-                document.getElementById('login-password-error').textContent = result.message;
-                document.getElementById('login-password-error').style.display = 'block';
-            }
-        });
-        
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('register-confirm-password').value;
-            
-            // Clear previous error messages
-            document.getElementById('register-confirm-password-error').style.display = 'none';
-            document.getElementById('register-email-error').style.display = 'none';
-            
-            if (password !== confirmPassword) {
-                document.getElementById('register-confirm-password-error').textContent = 'Passwords do not match';
-                document.getElementById('register-confirm-password-error').style.display = 'block';
-                return;
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    // Clear previous error messages
+                    document.getElementById('login-password-error').style.display = 'none';
+                    
+                    const result = await loginUser({ email, password });
+                    
+                    if (result.success) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        document.getElementById('login-password-error').textContent = result.message;
+                        document.getElementById('login-password-error').style.display = 'block';
+                    }
+                });
             }
             
-            const result = await registerUser({ name, email, password });
-            
-            if (result.success) {
-                window.location.href = 'index.html';
-            } else {
-                document.getElementById('register-email-error').textContent = result.message;
-                document.getElementById('register-email-error').style.display = 'block';
+            if (registerForm) {
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('register-name').value;
+                    const email = document.getElementById('register-email').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    
+                    // Clear previous error messages
+                    document.getElementById('register-confirm-password-error').style.display = 'none';
+                    document.getElementById('register-email-error').style.display = 'none';
+                    
+                    if (password !== confirmPassword) {
+                        document.getElementById('register-confirm-password-error').textContent = 'Passwords do not match';
+                        document.getElementById('register-confirm-password-error').style.display = 'block';
+                        return;
+                    }
+                    
+                    const result = await registerUser({ name, email, password });
+                    
+                    if (result.success) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        document.getElementById('register-email-error').textContent = result.message;
+                        document.getElementById('register-email-error').style.display = 'block';
+                    }
+                });
             }
-        });
+        }
     </script>
 </body>
 </html> 

@@ -10,7 +10,13 @@ const register = async (req, res) => {
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ 
+                success: false,
+                errors: [{
+                    field: 'email',
+                    message: 'User already exists'
+                }]
+            });
         }
 
         // Hash password
@@ -34,16 +40,25 @@ const register = async (req, res) => {
         );
 
         res.status(201).json({
-            token,
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
+            success: true,
+            data: {
+                token,
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
             }
         });
     } catch (error) {
         console.error('Registration error:', error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ 
+            success: false,
+            errors: [{
+                field: 'server',
+                message: 'Server error'
+            }]
+        });
     }
 };
 
@@ -55,13 +70,25 @@ const login = async (req, res) => {
         // Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+            return res.status(400).json({ 
+                success: false,
+                errors: [{
+                    field: 'email',
+                    message: 'Invalid email or password'
+                }]
+            });
         }
 
         // Validate password
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+            return res.status(400).json({ 
+                success: false,
+                errors: [{
+                    field: 'password',
+                    message: 'Invalid email or password'
+                }]
+            });
         }
 
         // Create and assign token
@@ -72,16 +99,25 @@ const login = async (req, res) => {
         );
 
         res.json({
-            token,
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
+            success: true,
+            data: {
+                token,
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
             }
         });
     } catch (error) {
         console.error('Login error:', error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ 
+            success: false,
+            errors: [{
+                field: 'server',
+                message: 'Server error'
+            }]
+        });
     }
 };
 

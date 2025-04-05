@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditation - Neurodiversity Learning Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .meditation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .timer-display {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 2rem 0;
+            color: var(--primary-color);
+        }
+        
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .timer-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .timer-button:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .timer-button:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .timer-presets {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .preset-button {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .preset-button:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .meditation-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .stat-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <div class="meditation-container">
+            <header>
+                <h1><i class="fas fa-om"></i> Meditation Timer</h1>
+                <p class="tagline">Take a moment to relax and focus</p>
+            </header>
+            
+            <div class="meditation-stats">
+                <div class="stat-item">
+                    <h3>Today's Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="daily-progress"></div>
+                    </div>
+                    <p><span id="daily-time">0</span> / <span id="daily-goal">600</span> seconds</p>
+                </div>
+                
+                <div class="stat-item">
+                    <h3>Total Sessions</h3>
+                    <div class="stat-value" id="total-sessions">0</div>
+                    <p>meditation sessions completed</p>
+                </div>
+                
+                <div class="stat-item">
+                    <h3>Average Duration</h3>
+                    <div class="stat-value" id="avg-duration">0</div>
+                    <p>seconds per session</p>
+                </div>
+            </div>
+            
+            <div class="timer-display" id="timer">10:00</div>
+            
+            <div class="timer-presets">
+                <button class="preset-button" data-time="300">5 min</button>
+                <button class="preset-button" data-time="600">10 min</button>
+                <button class="preset-button" data-time="900">15 min</button>
+                <button class="preset-button" data-time="1200">20 min</button>
+            </div>
+            
+            <div class="timer-controls">
+                <button class="timer-button" id="start-button">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="timer-button" id="pause-button" disabled>
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button class="timer-button" id="reset-button" disabled>
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            
+            <a href="dashboard.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+    <script type="module">
+        import { saveMeditation, getMeditationHistory, getTodayMeditation } from './js/main.js';
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize meditation timer
+            initMeditationTimer();
+            
+            // Load meditation stats
+            loadMeditationStats();
+        });
+        
+        function initMeditationTimer() {
+            const timerDisplay = document.getElementById('timer');
+            const startButton = document.getElementById('start-button');
+            const pauseButton = document.getElementById('pause-button');
+            const resetButton = document.getElementById('reset-button');
+            const presetButtons = document.querySelectorAll('.preset-button');
+            
+            let timeLeft = 600; // Default 10 minutes
+            let timerInterval = null;
+            let isRunning = false;
+            
+            // Update timer display
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            // Start timer
+            function startTimer() {
+                if (!isRunning) {
+                    isRunning = true;
+                    startButton.disabled = true;
+                    pauseButton.disabled = false;
+                    resetButton.disabled = false;
+                    
+                    timerInterval = setInterval(() => {
+                        timeLeft--;
+                        updateTimerDisplay();
+                        
+                        if (timeLeft <= 0) {
+                            clearInterval(timerInterval);
+                            isRunning = false;
+                            startButton.disabled = false;
+                            pauseButton.disabled = true;
+                            
+                            // Save meditation session
+                            saveMeditationSession(600 - timeLeft);
+                            
+                            // Play completion sound
+                            playCompletionSound();
+                        }
+                    }, 1000);
+                }
+            }
+            
+            // Pause timer
+            function pauseTimer() {
+                if (isRunning) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    startButton.disabled = false;
+                    pauseButton.disabled = true;
+                }
+            }
+            
+            // Reset timer
+            function resetTimer() {
+                clearInterval(timerInterval);
+                isRunning = false;
+                timeLeft = 600; // Reset to 10 minutes
+                updateTimerDisplay();
+                startButton.disabled = false;
+                pauseButton.disabled = true;
+                resetButton.disabled = true;
+            }
+            
+            // Set preset time
+            function setPresetTime(seconds) {
+                if (!isRunning) {
+                    timeLeft = seconds;
+                    updateTimerDisplay();
+                }
+            }
+            
+            // Play completion sound
+            function playCompletionSound() {
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-meditation-bell-600.mp3');
+                audio.play();
+            }
+            
+            // Save meditation session
+            async function saveMeditationSession(duration) {
+                try {
+                    const result = await saveMeditation(duration);
+                    if (result.success) {
+                        console.log('Meditation session saved:', result.data);
+                        loadMeditationStats(); // Reload stats
+                    } else {
+                        console.error('Failed to save meditation session:', result.message);
+                    }
+                } catch (error) {
+                    console.error('Error saving meditation session:', error);
+                }
+            }
+            
+            // Event listeners
+            startButton.addEventListener('click', startTimer);
+            pauseButton.addEventListener('click', pauseTimer);
+            resetButton.addEventListener('click', resetTimer);
+            
+            presetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const seconds = parseInt(button.dataset.time);
+                    setPresetTime(seconds);
+                });
+            });
+        }
+        
+        async function loadMeditationStats() {
+            try {
+                // Get today's meditation data
+                const todayData = await getTodayMeditation();
+                if (todayData) {
+                    document.getElementById('daily-time').textContent = todayData.totalDuration;
+                    document.getElementById('daily-goal').textContent = todayData.dailyGoal;
+                    
+                    const progressPercent = Math.min(100, (todayData.totalDuration / todayData.dailyGoal) * 100);
+                    document.getElementById('daily-progress').style.width = `${progressPercent}%`;
+                }
+                
+                // Get meditation history
+                const history = await getMeditationHistory();
+                if (history && history.length > 0) {
+                    document.getElementById('total-sessions').textContent = history.length;
+                    
+                    const totalDuration = history.reduce((sum, session) => sum + session.duration, 0);
+                    const avgDuration = Math.round(totalDuration / history.length);
+                    document.getElementById('avg-duration').textContent = avgDuration;
+                }
+            } catch (error) {
+                console.error('Error loading meditation stats:', error);
+            }
+        }
+    </script>
+</body>
+</html> 
