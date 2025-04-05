@@ -1,0 +1,123 @@
+// index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your Path Adventure</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="fade-in">🌟 Choose Your Path: Magic Forest</h1>
+  <div class="story-box fade-in" id="storyBox">
+    <img id="storyImg" class="story-img" src="https://i.imgur.com/Iu6s4k8.png" alt="Story Scene" />
+    <p id="storyText">You find a glowing door in the forest. What do you do?</p>
+    <audio controls id="storyAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <div class="choices">
+      <button onclick="chooseOption('A')">🗝️ Open it</button>
+      <button onclick="chooseOption('B')">👋 Knock first</button>
+      <button onclick="chooseOption('C')">🏃 Run away</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+/* style.css */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #e0f2f1, #fce4ec);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 2rem;
+}
+h1 {
+  color: #6a1b9a;
+  text-align: center;
+}
+.story-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  max-width: 600px;
+  text-align: center;
+  transition: all 0.6s ease;
+}
+.story-img {
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto;
+  transition: transform 0.5s ease;
+}
+.story-img:hover {
+  transform: scale(1.05);
+}
+.choices button {
+  background-color: #8e24aa;
+  color: white;
+  padding: 1rem;
+  margin: 1rem 0.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.choices button:hover {
+  background-color: #6a1b9a;
+  transform: scale(1.05);
+}
+audio {
+  margin-top: 1rem;
+}
+.fade-in {
+  animation: fadeIn 1s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// script.js
+const storyData = {
+  A: {
+    text: "You bravely open the door and step into a glowing cave full of talking crystals!",
+    img: "https://i.imgur.com/h1d0m2C.png",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+  },
+  B: {
+    text: "You knock gently. A fairy appears and invites you in for tea and a story!",
+    img: "https://i.imgur.com/EZlUO9d.png",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+  },
+  C: {
+    text: "You run away and trip over a root—only to find a treasure map hidden in the grass!",
+    img: "https://i.imgur.com/qqdC0Vh.png",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+  }
+};
+
+function chooseOption(option) {
+  const storyBox = document.getElementById('storyBox');
+  storyBox.classList.remove('fade-in');
+  void storyBox.offsetWidth; // trigger reflow
+  storyBox.classList.add('fade-in');
+
+  const chosen = storyData[option];
+  document.getElementById('storyText').textContent = chosen.text;
+  document.getElementById('storyImg').src = chosen.img;
+  document.getElementById('storyAudio').src = chosen.audio;
+  document.getElementById('storyAudio').play();
+}
