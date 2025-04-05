@@ -61,11 +61,11 @@ export const getUserScores = async () => {
 };
 
 // Meditation functions
-export const saveMeditation = async (duration) => {
+export const saveMeditation = async (duration, eyesClosedDuration = 0) => {
     try {
         const data = await apiRequest(API_ENDPOINTS.saveMeditation, {
             method: 'POST',
-            body: JSON.stringify({ duration })
+            body: JSON.stringify({ duration, eyesClosedDuration })
         });
         return { success: true, data };
     } catch (error) {

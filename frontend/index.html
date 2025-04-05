@@ -13,6 +13,7 @@
             margin: 0 auto;
             padding: 2rem;
             text-align: center;
+            animation: fadeIn 0.5s ease;
         }
         
         .welcome-image {
@@ -21,19 +22,24 @@
             margin: 2rem 0;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .welcome-image:hover {
+            transform: scale(1.02);
         }
         
         .features-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             margin: 2rem 0;
             text-align: left;
         }
         
         .feature-item {
             background: var(--card-bg);
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             transition: var(--transition);
@@ -44,28 +50,176 @@
         }
         
         .feature-icon {
-            font-size: 2rem;
+            font-size: 3rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
         }
         
-        .cta-button {
+        .feature-title {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        
+        .get-started-button {
             display: inline-block;
-            background: var(--primary-color);
+            background-color: var(--primary-color);
             color: white;
             padding: 1rem 2rem;
             border-radius: var(--border-radius);
             text-decoration: none;
-            font-size: 1.2rem;
-            margin: 2rem 0;
+            font-weight: bold;
             transition: var(--transition);
             border: none;
             cursor: pointer;
+            margin-top: 1rem;
         }
         
-        .cta-button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
+        .get-started-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .get-started-button:active {
+            transform: translateY(0);
+        }
+
+        .accessibility-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .accessibility-button {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .accessibility-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .accessibility-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .get-started-container {
+                padding: 1.5rem;
+            }
+
+            .features-list {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-item {
+                padding: 1.5rem;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+            }
+
+            .feature-title {
+                font-size: 1.3rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .get-started-container {
+                padding: 1rem;
+            }
+
+            .feature-item {
+                padding: 1.2rem;
+            }
+
+            .feature-icon {
+                font-size: 2rem;
+            }
+
+            .feature-title {
+                font-size: 1.2rem;
+            }
+
+            .get-started-button {
+                padding: 0.8rem 1.6rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -117,8 +271,24 @@
                 </div>
             </div>
             
-            <a href="auth.html" class="cta-button">Get Started Now</a>
+            <a href="auth.html" class="get-started-button">Get Started Now</a>
         </div>
+        
+        <footer>
+            <div class="footer-links">
+                <a href="#" class="footer-link">About Us</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p class="copyright">&copy; 2023 Neurodiversity Learning Hub. All rights reserved.</p>
+        </footer>
     </div>
 
     <script src="script.js" type="module"></script>

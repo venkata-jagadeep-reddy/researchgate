@@ -48,6 +48,56 @@
             padding: 0.5rem 1rem;
             color: var(--text-color);
         }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +133,7 @@
                         <i class="fas fa-gamepad"></i> Memory Game
                     </a>
                     <a href="../dyslexia/index.html" class="app-link">
-                        <i class="fas fa-book"></i> Reading Tools
+                        <i class="fas fa-book"></i> Drawing Tools
                     </a>
                 </div>
             </div>
@@ -96,7 +146,7 @@
                 <p>Interactive tools and visual learning resources</p>
                 <div class="app-links">
                     <a href="../autism/index.html" class="app-link">
-                        <i class="fas fa-tasks"></i> Task Manager
+                        <i class="fas fa-tasks"></i> Speech Theraphy
                     </a>
                 </div>
             </div>
@@ -142,8 +192,19 @@
         </div>
 
         <footer>
-            <p>Created with <i class="fas fa-heart"></i> for neurodiverse learners</p>
-            <p class="copyright">© 2025 Neurodiversity Learning Hub</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">About Us</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p class="copyright">&copy; 2023 Neurodiversity Learning Hub. All rights reserved.</p>
         </footer>
     </div>
 

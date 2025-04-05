@@ -4,12 +4,13 @@ const User = require('../models/User');
 // Save meditation session
 exports.saveMeditation = async (req, res) => {
     try {
-        const { duration } = req.body;
+        const { duration, eyesClosedDuration } = req.body;
         const userId = req.user.id;
 
         const meditation = new Meditation({
             user: userId,
             duration,
+            eyesClosedDuration: eyesClosedDuration || 0,
             date: new Date()
         });
 
@@ -68,12 +69,14 @@ exports.getTodayMeditation = async (req, res) => {
         });
 
         const totalDuration = todayMeditations.reduce((sum, med) => sum + med.duration, 0);
+        const totalEyesClosedDuration = todayMeditations.reduce((sum, med) => sum + (med.eyesClosedDuration || 0), 0);
         const dailyGoal = 600; // 10 minutes in seconds
 
         res.status(200).json({
             success: true,
             data: {
                 totalDuration,
+                totalEyesClosedDuration,
                 dailyGoal,
                 completed: totalDuration >= dailyGoal,
                 sessions: todayMeditations

@@ -15,6 +15,7 @@
             background: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            animation: fadeIn 0.5s ease;
         }
 
         .profile-header {
@@ -36,6 +37,11 @@
             justify-content: center;
             color: white;
             font-size: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
         }
 
         .profile-info {
@@ -61,21 +67,166 @@
         }
 
         .stat-card {
-            background: var(--background-color);
+            background: var(--card-bg);
             padding: 1.5rem;
             border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
 
         .stat-value {
             font-size: 2rem;
-            color: var(--primary-color);
+            font-weight: bold;
+            color: var(--text-color);
             margin: 0.5rem 0;
         }
 
         .stat-label {
             color: var(--text-muted);
             font-size: 0.9rem;
+        }
+
+        .progress-section {
+            margin: 2rem 0;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .settings-section {
+            margin: 2rem 0;
+        }
+
+        .settings-title {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .setting-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .setting-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .setting-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .setting-title {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .setting-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .setting-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: var(--transition);
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
         }
 
         .scores-section {
@@ -125,6 +276,206 @@
             border-radius: var(--border-radius);
             margin: 1rem 0;
         }
+
+        /* New styles for meditation stats */
+        .meditation-stats {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .meditation-stats h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meditation-chart {
+            width: 100%;
+            height: 200px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .meditation-bar {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            background: var(--primary-color);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.3s ease;
+        }
+
+        .meditation-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .meditation-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .meditation-summary-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+        }
+
+        .meditation-summary-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .meditation-summary-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .profile-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .profile-name {
+                font-size: 1.5rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-icon {
+                font-size: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -151,53 +502,123 @@
                     </div>
                 </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="total-games">0</div>
-                        <div class="stat-label">Games Played</div>
+                <div class="tabs">
+                    <div class="tab active" data-tab="games">Games</div>
+                    <div class="tab" data-tab="meditation">Meditation</div>
+                </div>
+
+                <div class="tab-content active" id="games-tab">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-games">0</div>
+                            <div class="stat-label">Games Played</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="average-score">0</div>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="high-score">0</div>
+                            <div class="stat-label">Highest Score</div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="average-score">0</div>
-                        <div class="stat-label">Average Score</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="high-score">0</div>
-                        <div class="stat-label">Highest Score</div>
+
+                    <div class="scores-section">
+                        <h2>Recent Scores</h2>
+                        <table class="scores-table">
+                            <thead>
+                                <tr>
+                                    <th>Game</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scores-table-body">
+                                <!-- Scores will be inserted here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <div class="scores-section">
-                    <h2>Recent Scores</h2>
-                    <table class="scores-table">
-                        <thead>
-                            <tr>
-                                <th>Game</th>
-                                <th>Score</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scores-table-body">
-                            <!-- Scores will be inserted here -->
-                        </tbody>
-                    </table>
+                <div class="tab-content" id="meditation-tab">
+                    <div class="meditation-stats">
+                        <h2><i class="fas fa-om"></i> Meditation Progress</h2>
+                        
+                        <div class="meditation-chart" id="meditation-chart">
+                            <!-- Meditation chart will be inserted here -->
+                        </div>
+                        
+                        <div class="meditation-summary">
+                            <div class="meditation-summary-item">
+                                <div class="meditation-summary-value" id="total-meditations">0</div>
+                                <div class="meditation-summary-label">Total Sessions</div>
+                            </div>
+                            <div class="meditation-summary-item">
+                                <div class="meditation-summary-value" id="total-meditation-time">0</div>
+                                <div class="meditation-summary-label">Total Minutes</div>
+                            </div>
+                            <div class="meditation-summary-item">
+                                <div class="meditation-summary-value" id="avg-meditation-time">0</div>
+                                <div class="meditation-summary-label">Avg. Minutes/Session</div>
+                            </div>
+                            <div class="meditation-summary-item">
+                                <div class="meditation-summary-value" id="focus-score">0%</div>
+                                <div class="meditation-summary-label">Focus Score</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scores-section">
+                        <h2>Meditation History</h2>
+                        <table class="scores-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Duration</th>
+                                    <th>Focus Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="meditation-table-body">
+                                <!-- Meditation history will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <a href="index.html" class="back-link">
+                <a href="dashboard.html" class="back-link">
                     <i class="fas fa-arrow-left"></i> Back to Dashboard
                 </a>
             </div>
         </div>
     </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#" class="footer-link">About Us</a>
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">Contact</a>
+        </div>
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="copyright">&copy; 2023 Neurodiversity Learning Hub. All rights reserved.</p>
+    </footer>
 
     <script src="script.js" type="module"></script>
     <script type="module">
         import { getCurrentUser, isAuthenticated } from './js/auth.js';
-        import { getUserScores } from './js/main.js';
+        import { getUserScores, getMeditationHistory } from './js/main.js';
 
         document.addEventListener('DOMContentLoaded', async () => {
             const loading = document.getElementById('loading');
             const errorMessage = document.getElementById('error-message');
             const profileContent = document.getElementById('profile-content');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
 
             try {
                 // Check if user is authenticated
@@ -240,15 +661,108 @@
                         .join('');
                 }
 
+                // Get meditation history
+                const meditationHistory = await getMeditationHistory();
+                
+                if (meditationHistory && meditationHistory.length > 0) {
+                    // Calculate meditation statistics
+                    const totalMeditations = meditationHistory.length;
+                    const totalMinutes = Math.round(meditationHistory.reduce((acc, curr) => acc + curr.duration, 0) / 60);
+                    const avgMinutes = Math.round(totalMinutes / totalMeditations);
+                    
+                    // Calculate focus score (percentage of time eyes were closed)
+                    const focusScores = meditationHistory.map(session => 
+                        Math.round((session.eyesClosedDuration / session.duration) * 100)
+                    );
+                    
+                    const avgFocusScore = focusScores.length > 0 
+                        ? Math.round(focusScores.reduce((acc, curr) => acc + curr, 0) / focusScores.length) 
+                        : 0;
+                    
+                    // Update meditation statistics
+                    document.getElementById('total-meditations').textContent = totalMeditations;
+                    document.getElementById('total-meditation-time').textContent = totalMinutes;
+                    document.getElementById('avg-meditation-time').textContent = avgMinutes;
+                    document.getElementById('focus-score').textContent = `${avgFocusScore}%`;
+                    
+                    // Create meditation chart (last 7 days)
+                    const meditationChart = document.getElementById('meditation-chart');
+                    const last7Days = getLast7Days();
+                    
+                    meditationChart.innerHTML = last7Days.map(day => {
+                        const meditation = meditationHistory.find(m => 
+                            new Date(m.date).toLocaleDateString() === day.toLocaleDateString()
+                        );
+                        
+                        const duration = meditation ? Math.round(meditation.duration / 60) : 0;
+                        const height = duration > 0 ? Math.min(100, (duration / 20) * 100) : 0;
+                        
+                        return `
+                            <div class="meditation-bar" style="left: ${(last7Days.indexOf(day) / 7) * 100}%; height: ${height}%;"></div>
+                            <div class="meditation-label" style="left: ${(last7Days.indexOf(day) / 7) * 100 + 15}%;">
+                                ${day.toLocaleDateString('en-US', { weekday: 'short' })}
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    // Update meditation history table
+                    const meditationTableBody = document.getElementById('meditation-table-body');
+                    meditationTableBody.innerHTML = meditationHistory
+                        .sort((a, b) => new Date(b.date) - new Date(a.date))
+                        .slice(0, 10)
+                        .map(session => {
+                            const focusScore = Math.round((session.eyesClosedDuration / session.duration) * 100);
+                            
+                            return `
+                                <tr>
+                                    <td>${new Date(session.date).toLocaleDateString()}</td>
+                                    <td>${Math.round(session.duration / 60)} minutes</td>
+                                    <td>${focusScore}%</td>
+                                </tr>
+                            `;
+                        })
+                        .join('');
+                }
+
                 // Show profile content
                 loading.style.display = 'none';
                 profileContent.style.display = 'block';
+                
+                // Tab switching
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const tabId = tab.getAttribute('data-tab');
+                        
+                        // Update active tab
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        
+                        // Update active content
+                        tabContents.forEach(content => {
+                            content.classList.remove('active');
+                            if (content.id === `${tabId}-tab`) {
+                                content.classList.add('active');
+                            }
+                        });
+                    });
+                });
             } catch (error) {
                 loading.style.display = 'none';
                 errorMessage.textContent = 'Failed to load profile data. Please try again later.';
                 errorMessage.style.display = 'block';
             }
         });
+        
+        // Helper function to get last 7 days
+        function getLast7Days() {
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+                const day = new Date();
+                day.setDate(day.getDate() - i);
+                days.push(day);
+            }
+            return days;
+        }
     </script>
 </body>
 </html> 
