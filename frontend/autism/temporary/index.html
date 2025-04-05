@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Game for Kids</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the RPG Adventure for Kids!</h1>
+        <p>Practice social skills in a fun, interactive world.</p>
+    </header>
+    
+    <main>
+        <section class="intro">
+            <h2>Start Your Adventure</h2>
+            <button id="signup-btn">Sign Up</button>
+            <button id="login-btn">Login</button>
+        </section>
+
+        <!-- Sign-Up Form -->
+        <section id="signup-form" class="auth-form" style="display:none;">
+            <h2>Create Your Adventure Character!</h2>
+            <div class="character-creation">
+                <div class="avatar-selection">
+                    <h3>Choose Your Character</h3>
+                    <div class="avatar-options">
+                        <div class="avatar-option" data-avatar="hero">
+                            <img src="image1.jpeg" alt="Hero Character">
+                            <span>Hero</span>
+                        </div>
+                        <div class="avatar-option" data-avatar="wizard">
+                            <img src="image2.png" alt="Wizard Character">
+                            <span>Wizard</span>
+                        </div>
+                        <div class="avatar-option" data-avatar="knight">
+                            <img src="image3.jpeg" alt="Knight Character">
+                            <span>Knight</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="signup-details">
+                    <h3>Your Adventure Details</h3>
+                    <input type="text" id="signup-username" placeholder="Choose Your Character Name" required>
+                    <input type="password" id="signup-password" placeholder="Create a Secret Password" required>
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm Your Secret Password" required>
+                    <div class="password-strength">
+                        <div class="strength-meter"></div>
+                        <p class="strength-text">Password Strength: <span>Weak</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button id="submit-signup" class="primary-btn">Start Adventure!</button>
+                <button id="back-to-home" class="secondary-btn">Back</button>
+            </div>
+        </section>
+
+        <!-- Login Form -->
+        <section id="login-form" class="auth-form" style="display:none;">
+            <h2>Login</h2>
+            <input type="text" id="login-username" placeholder="Enter Username" required>
+            <input type="password" id="login-password" placeholder="Enter Password" required>
+            <button id="submit-login">Login</button>
+            <button id="forgot-password-btn">Forgot Password?</button>
+            <button id="back-to-home-login">Back</button>
+        </section>
+
+        <!-- Password Reset Form -->
+        <section id="reset-password-form" class="auth-form" style="display:none;">
+            <h2>Reset Password</h2>
+            <input type="text" id="reset-username" placeholder="Enter Username" required>
+            <input type="password" id="reset-new-password" placeholder="Enter New Password" required>
+            <button id="submit-reset-password">Reset Password</button>
+            <button id="back-to-login">Back to Login</button>
+        </section>
+
+        <!-- Roleplay Scenario -->
+        <section id="roleplay-section" class="roleplay-section">
+            <h2>Scenario: Making a New Friend</h2>
+            <p>Choose an option below to interact with another character:</p>
+            <div class="roleplay-options">
+                <button onclick="chooseOption('greet')">Greet the character</button>
+                <button onclick="chooseOption('ignore')">Ignore the character</button>
+            </div>
+            <div class="roleplay-result"></div>
+        </section>
+
+        <section id="camera-roleplay-section" class="camera-roleplay-section">
+            <h2>Act Out Your Role!</h2>
+            <p>Use your camera to act out the scenario with your friends.</p>
+            
+            <div class="camera-container">
+                <div class="video-container">
+                    <video id="local-video" autoplay muted playsinline></video>
+                    <div class="video-overlay">
+                        <span class="video-label">You</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="camera-controls">
+                <button id="start-camera" class="primary-btn">Start Camera</button>
+                <button id="stop-camera" class="secondary-btn" disabled>Stop Camera</button>
+                <button id="start-recording" class="primary-btn" disabled>Record Scene</button>
+                <button id="stop-recording" class="secondary-btn" disabled>Stop Recording</button>
+            </div>
+            
+            <div class="scenario-controls">
+                <h3>Current Scenario: <span id="current-scenario">Making a New Friend</span></h3>
+                <div class="scenario-description">
+                    <p id="scenario-instructions">Act out how you would make a new friend at the playground.</p>
+                </div>
+                <div class="scenario-timer">
+                    <span id="timer">00:00</span>
+                </div>
+                <button id="next-scenario" class="primary-btn">Next Scenario</button>
+            </div>
+            
+            <div class="recording-preview" id="recording-preview">
+                <h3>Your Recording</h3>
+                <video id="preview-video" controls></video>
+                <div class="preview-controls">
+                    <button id="save-recording" class="primary-btn">Save Recording</button>
+                    <button id="discard-recording" class="secondary-btn">Discard</button>
+                    <button id="evaluate-recording" class="primary-btn">Evaluate Performance</button>
+                </div>
+            </div>
+            
+            <div class="evaluation-section" id="evaluation-section">
+                <h3>Performance Evaluation</h3>
+                <div class="evaluation-score">
+                    <div class="score-circle">
+                        <span id="score-value">0</span>
+                        <span class="score-label" style="color: black;">Points</span>
+                    </div>
+                    <div class="score-details">
+                        <div class="score-item">
+                            <span class="score-category">Confidence</span>
+                            <div class="score-bar">
+                                <div class="score-fill" id="confidence-score"></div>
+                            </div>
+                            <span class="score-number" id="confidence-value">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-category">Clarity</span>
+                            <div class="score-bar">
+                                <div class="score-fill" id="clarity-score"></div>
+                            </div>
+                            <span class="score-number" id="clarity-value">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-category">Creativity</span>
+                            <div class="score-bar">
+                                <div class="score-fill" id="creativity-score"></div>
+                            </div>
+                            <span class="score-number" id="creativity-value">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-category">Effort</span>
+                            <div class="score-bar">
+                                <div class="score-fill" id="effort-score"></div>
+                            </div>
+                            <span class="score-number" id="effort-value">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="evaluation-feedback">
+                    <h4>Feedback</h4>
+                    <p id="feedback-text">Great job! You showed confidence and creativity in your roleplay.</p>
+                    <div class="feedback-badges">
+                        <span class="badge" id="badge-1">Confident</span>
+                        <span class="badge" id="badge-2">Creative</span>
+                        <span class="badge" id="badge-3">Friendly</span>
+                    </div>
+                </div>
+                <div class="evaluation-actions">
+                    <button id="close-evaluation" class="secondary-btn">Close</button>
+                    <button id="share-evaluation" class="primary-btn">Share with Parents</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RPG Adventure for Kids</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

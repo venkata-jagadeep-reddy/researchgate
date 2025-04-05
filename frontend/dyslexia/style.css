@@ -7,10 +7,29 @@
     --error-color: #ef4444;
     --success-color: #10b981;
     --background-color: #f0f9ff;
+    --card-bg: #ffffff;
     --text-color: #1e3a8a;
+    --text-muted: #666666;
+    --border-color: #e5e7eb;
     --border-radius: 12px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --primary-color: #3b82f6;
+    --primary-dark: #2563eb;
+    --secondary-color: #60a5fa;
+    --accent-color: #f59e0b;
+    --error-color: #ef4444;
+    --success-color: #10b981;
+    --background-color: #1a1a2e;
+    --card-bg: #16213e;
+    --text-color: #e6e6e6;
+    --text-muted: #a0a0a0;
+    --border-color: #2a2a3a;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -23,8 +42,12 @@ body {
     line-height: 1.6;
 }
 
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
 .game-container {
-    background-color: white;
+    background-color: var(--card-bg);
     box-shadow: var(--box-shadow);
     padding: 2rem;
     border-radius: var(--border-radius);
@@ -53,7 +76,7 @@ header h1 {
 
 .tagline {
     font-size: 1.2rem;
-    color: #666;
+    color: var(--text-muted);
     margin-top: 0;
 }
 
@@ -66,12 +89,13 @@ header h1 {
 }
 
 .stat-box {
-    background: #f0f9ff;
+    background: var(--background-color);
     padding: 1rem;
     border-radius: var(--border-radius);
     text-align: center;
     min-width: 100px;
     box-shadow: var(--box-shadow);
+    color: var(--text-color);
 }
 
 .stat-box i {
@@ -132,7 +156,8 @@ header h1 {
 }
 
 .memory-card-back {
-    background: white;
+    background: var(--card-bg);
+    color: var(--text-color);
     transform: rotateY(180deg);
     border: 2px solid var(--primary-color);
 }

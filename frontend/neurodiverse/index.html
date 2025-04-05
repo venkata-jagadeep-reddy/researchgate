@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neurodiverse Learning Hub</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6a5acd;
+            --primary-dark: #483d8b;
+            --secondary-color: #ff7f50;
+            --background-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-muted: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #8a7aff;
+            --primary-dark: #6a5acd;
+            --secondary-color: #ffa07a;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #f8f9fa;
+            --text-muted: #adb5bd;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Open Dyslexic', Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+        }
+
+        .hero-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #ff6b3d;
+            transform: translateY(-3px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+        }
+
+        .resources-section {
+            margin-bottom: 3rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .resource-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .resource-content {
+            padding: 1.5rem;
+        }
+
+        .resource-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .resource-content p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .resource-link {
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .resource-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .testimonials-section {
+            margin-bottom: 3rem;
+        }
+
+        .testimonial {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .community-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .community-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .community-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .community-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .community-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .community-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .join-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .join-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .accessibility-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .accessibility-button {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .accessibility-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .accessibility-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .high-contrast {
+            --primary-color: #000000;
+            --primary-dark: #333333;
+            --secondary-color: #ffffff;
+            --background-color: #ffffff;
+            --card-bg: #f0f0f0;
+            --text-color: #000000;
+            --text-muted: #333333;
+            --success-color: #008000;
+            --warning-color: #ff0000;
+            --danger-color: #ff0000;
+        }
+
+        .low-vision {
+            font-size: 1.2rem;
+        }
+
+        .low-vision h1 {
+            font-size: 2.8rem;
+        }
+
+        .low-vision h2 {
+            font-size: 2.2rem;
+        }
+
+        .low-vision h3 {
+            font-size: 1.7rem;
+        }
+
+        .low-vision p {
+            font-size: 1.3rem;
+        }
+
+        .low-vision .cta-button,
+        .low-vision .join-button {
+            font-size: 1.3rem;
+            padding: 1.2rem 2.4rem;
+        }
+
+        .reduced-motion * {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+
+            .hero-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .features-grid,
+            .resources-grid,
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <header>
+            <h1>Neurodiverse Learning Hub</h1>
+            <p class="tagline">Empowering individuals with diverse neurological profiles to learn, grow, and thrive</p>
+        </header>
+
+        <div class="accessibility-controls">
+            <button class="accessibility-button" id="high-contrast-toggle">
+                <i class="fas fa-adjust"></i> High Contrast
+            </button>
+            <button class="accessibility-button" id="low-vision-toggle">
+                <i class="fas fa-eye"></i> Low Vision
+            </button>
+            <button class="accessibility-button" id="reduced-motion-toggle">
+                <i class="fas fa-running"></i> Reduced Motion
+            </button>
+            <button class="accessibility-button" id="dyslexic-font-toggle">
+                <i class="fas fa-font"></i> Dyslexic Font
+            </button>
+        </div>
+
+        <section class="hero-section">
+            <h2>Welcome to Your Learning Community</h2>
+            <p>Our platform is designed to support individuals with ADHD, autism, dyslexia, and other neurodiverse profiles. We provide tools, resources, and a supportive community to help you reach your full potential.</p>
+            <a href="../auth.html" class="cta-button">Get Started</a>
+        </section>
+
+        <section class="features-section">
+            <h2>Our Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Personalized Learning</h3>
+                    <p>Adaptive learning paths tailored to your unique strengths and challenges.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-om"></i>
+                    </div>
+                    <h3>Meditation & Mindfulness</h3>
+                    <p>Eye-tracking meditation tools to help you focus and reduce anxiety.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Support</h3>
+                    <p>Connect with others who share similar experiences and challenges.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your learning journey with visual progress indicators.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="resources-section">
+            <h2>Learning Resources</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="ADHD Resources" class="resource-image">
+                    <div class="resource-content">
+                        <h3>ADHD Resources</h3>
+                        <p>Tools and strategies to help manage attention, organization, and time management.</p>
+                        <a href="adhd/" class="resource-link">Explore Resources <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Autism Resources" class="resource-image">
+                    <div class="resource-content">
+                        <h3>Autism Resources</h3>
+                        <p>Support for communication, social skills, and sensory management.</p>
+                        <a href="autism/" class="resource-link">Explore Resources <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Dyslexia Resources" class="resource-image">
+                    <div class="resource-content">
+                        <h3>Dyslexia Resources</h3>
+                        <p>Reading tools, text-to-speech, and strategies for academic success.</p>
+                        <a href="dyslexia/" class="resource-link">Explore Resources <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials-section">
+            <h2>Community Voices</h2>
+            <div class="testimonial">
+                <p class="testimonial-content">"The meditation feature with eye tracking has been a game-changer for my focus. I can finally sit still and meditate without getting distracted!"</p>
+                <p class="testimonial-author">- Sarah, ADHD</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-content">"As someone with dyslexia, the text-to-speech feature and dyslexic font have made reading so much easier. I'm finally enjoying books again!"</p>
+                <p class="testimonial-author">- James, Dyslexia</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-content">"The community support has been incredible. It's so refreshing to connect with others who understand my experiences without judgment."</p>
+                <p class="testimonial-author">- Alex, Autism</p>
+            </div>
+        </section>
+
+        <section class="community-section">
+            <h2>Join Our Community</h2>
+            <p>Connect with others, share experiences, and learn together in a supportive environment.</p>
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="community-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Discussion Forums</h3>
+                    <p>Engage in conversations about learning strategies, challenges, and successes.</p>
+                    <a href="#" class="join-button">Join Discussion</a>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Virtual Events</h3>
+                    <p>Participate in webinars, workshops, and support groups from the comfort of your home.</p>
+                    <a href="#" class="join-button">View Events</a>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Peer Mentoring</h3>
+                    <p>Connect with mentors who share your neurodiverse profile and can offer guidance.</p>
+                    <a href="#" class="join-button">Find a Mentor</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#" class="footer-link">About Us</a>
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">Contact</a>
+        </div>
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="copyright">&copy; 2023 Neurodiverse Learning Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            
+            themeToggle.addEventListener('click', () => {
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.setAttribute('data-theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+            
+            // Accessibility controls
+            const highContrastToggle = document.getElementById('high-contrast-toggle');
+            const lowVisionToggle = document.getElementById('low-vision-toggle');
+            const reducedMotionToggle = document.getElementById('reduced-motion-toggle');
+            const dyslexicFontToggle = document.getElementById('dyslexic-font-toggle');
+            
+            highContrastToggle.addEventListener('click', () => {
+                body.classList.toggle('high-contrast');
+                highContrastToggle.classList.toggle('active');
+            });
+            
+            lowVisionToggle.addEventListener('click', () => {
+                body.classList.toggle('low-vision');
+                lowVisionToggle.classList.toggle('active');
+            });
+            
+            reducedMotionToggle.addEventListener('click', () => {
+                body.classList.toggle('reduced-motion');
+                reducedMotionToggle.classList.toggle('active');
+            });
+            
+            dyslexicFontToggle.addEventListener('click', () => {
+                body.classList.toggle('dyslexic-font');
+                dyslexicFontToggle.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html> 

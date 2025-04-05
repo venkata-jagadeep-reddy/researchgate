@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditation Monitor</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2">Meditation Monitor</h1>
+            <p class="text-gray-400">Find your inner peace with AI-guided meditation</p>
+        </header>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <div class="relative">
+                    <video id="video" class="w-full rounded-lg" autoplay playsinline webkit-playsinline></video>
+                    <canvas id="overlay" class="absolute top-0 left-0 w-full h-full"></canvas>
+                </div>
+                
+                <div class="mt-4 flex justify-center space-x-4">
+                    <button id="startBtn" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg">
+                        Start Meditation
+                    </button>
+                    <button id="stopBtn" class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg hidden">
+                        Stop Meditation
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold">Meditation Status</h2>
+                    <span id="timer" class="text-2xl font-mono">00:00</span>
+                </div>
+                <div id="status" class="text-gray-400 text-center py-4">
+                    Click 'Start Meditation' to begin your session
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="mr-2">Volume:</span>
+                        <label for="volume" class="mr-2">Volume:</label>
+                        <input type="range" id="volume" min="0" max="100" value="50" class="w-32" title="Adjust volume">
+                    </div>
+                    <div id="eyeStatus" class="text-sm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <input type="range" id="volume" min="0" max="100" value="50" class="w-32" title="Adjust volume">
+    </div>
+    <div id="eyeStatus" class="text-sm"></div>
+    <script>
+        const video = document.getElementById('video');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const timerElement = document.getElementById('timer');
+        const eyeStatus = document.getElementById('eyeStatus');
+    
+        let stream = null;
+        let timer = null;
+        let remainingTime = 5 * 60; // 5 minutes in seconds
+        const audio = new Audio('med.mp3'); // Audio file
+    
+        // Function to start the camera
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                startBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+                eyeStatus.textContent = 'Detecting...';
+    
+                // Start detecting eyes
+                detectEyes();
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+                alert('Could not access the camera. Please check your permissions.');
+            }
+        }
+    
+        // Function to stop the camera
+        function stopCamera() {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+                video.srcObject = null;
+            }
+            startBtn.classList.remove('hidden');
+            stopBtn.classList.add('hidden');
+            eyeStatus.textContent = '';
+            clearInterval(timer); // Stop the timer
+            timer = null;
+            remainingTime = 5 * 60; // Reset the timer to 5 minutes
+            timerElement.textContent = '05:00'; // Reset the timer display
+            audio.pause(); // Stop audio when the camera stops
+            audio.currentTime = 0;
+        }
+    
+        // Function to detect eyes (mock implementation for now)
+        function detectEyes() {
+            // Simulate eye detection (replace this with actual detection logic)
+            setInterval(() => {
+                const eyesOpen = Math.random() > 0.5; // Randomly simulate eyes open/closed
+                if (eyesOpen) {
+                    eyeStatus.textContent = 'Eyes Open';
+                    resetTimer(); // Restart the timer if eyes are open
+                } else {
+                    eyeStatus.textContent = 'Eyes Closed';
+                }
+            }, 2000); // Check every 2 seconds
+        }
+    
+        // Function to start the countdown timer
+        function startTimer() {
+            if (!timer) {
+                audio.play(); // Play audio when the timer starts
+                timer = setInterval(() => {
+                    if (remainingTime > 0) {
+                        remainingTime--;
+                        const minutes = Math.floor(remainingTime / 60);
+                        const secs = remainingTime % 60;
+                        timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                    } else {
+                        clearInterval(timer);
+                        timer = null;
+                        audio.pause(); // Stop audio when the timer ends
+                        audio.currentTime = 0;
+                        alert('Meditation session complete!');
+                    }
+                }, 1000);
+            }
+        }
+    
+        // Function to reset the timer
+        function resetTimer() {
+            clearInterval(timer);
+            timer = null;
+            remainingTime = 5 * 60; // Reset to 5 minutes
+            timerElement.textContent = '05:00';
+            startTimer();
+        }
+    
+        // Attach event listeners to buttons
+        startBtn.addEventListener('click', () => {
+            startCamera();
+            startTimer();
+        });
+        stopBtn.addEventListener('click', stopCamera);
+    </script>
+</body>
+</html>
