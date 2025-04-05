@@ -1,9 +1,35 @@
 // script.js
-import { checkServerHealth } from './js/main.js';
+import { checkServerHealth, isAuthenticated } from './js/auth.js';
+import { initTheme } from './js/theme.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Initialize theme
     initTheme();
+    
+    // Check if server is running
+    const serverRunning = await checkServerHealth();
+    if (!serverRunning) {
+        console.warn('Server is not running. Some features may not work properly.');
+    }
+    
+    // Check if user is already authenticated
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('index.html') || currentPath === '/') {
+        // On landing page, check if user is already authenticated
+        if (isAuthenticated()) {
+            window.location.href = 'dashboard.html';
+        }
+    } else if (currentPath.includes('auth.html')) {
+        // On auth page, check if user is already authenticated
+        if (isAuthenticated()) {
+            window.location.href = 'dashboard.html';
+        }
+    } else {
+        // On protected pages, check if user is authenticated
+        if (!isAuthenticated()) {
+            window.location.href = 'index.html';
+        }
+    }
     
     // Add animation to app cards
     const appCards = document.querySelectorAll('.app-card');
@@ -29,55 +55,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
     
-    // Check if server is running
-    const serverRunning = await checkServerHealth();
-    if (!serverRunning) {
-        console.warn('Server is not running. Some features may not work properly.');
-    }
-    
     // Check if all apps are available
     checkAppAvailability();
 });
-
-function initTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-    
-    // Check for saved theme preference or use system preference
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme) {
-        html.setAttribute('data-theme', savedTheme);
-        updateThemeIcon(savedTheme);
-    } else if (prefersDark) {
-        html.setAttribute('data-theme', 'dark');
-        updateThemeIcon('dark');
-    }
-    
-    // Add event listener for theme toggle
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-    });
-}
-
-function updateThemeIcon(theme) {
-    const themeToggle = document.getElementById('theme-toggle');
-    const icon = themeToggle.querySelector('i');
-    
-    if (theme === 'dark') {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-    }
-}
 
 function checkAppAvailability() {
     const appLinks = document.querySelectorAll('.app-link');
@@ -85,9 +65,16 @@ function checkAppAvailability() {
     appLinks.forEach(link => {
         const href = link.getAttribute('href');
         
-        // Create a fetch request to check if the file exists
-        fetch(href, { method: 'HEAD' })
+        // Use fetch with AbortController for better timeout handling
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        
+        fetch(href, { 
+            method: 'HEAD',
+            signal: controller.signal
+        })
             .then(response => {
+                clearTimeout(timeoutId);
                 if (!response.ok) {
                     // If the file doesn't exist, add a "coming soon" class
                     link.classList.add('coming-soon');
@@ -95,6 +82,7 @@ function checkAppAvailability() {
                 }
             })
             .catch(() => {
+                clearTimeout(timeoutId);
                 // If there's an error, assume the file doesn't exist
                 link.classList.add('coming-soon');
                 link.innerHTML = '<i class="fas fa-clock"></i> Coming Soon';

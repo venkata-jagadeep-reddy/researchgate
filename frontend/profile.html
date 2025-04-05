@@ -191,7 +191,8 @@
 
     <script src="script.js" type="module"></script>
     <script type="module">
-        import { getCurrentUser, getUserScores, isAuthenticated } from './js/main.js';
+        import { getCurrentUser, isAuthenticated } from './js/auth.js';
+        import { getUserScores } from './js/main.js';
 
         document.addEventListener('DOMContentLoaded', async () => {
             const loading = document.getElementById('loading');
