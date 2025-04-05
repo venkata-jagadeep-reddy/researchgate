@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dyslex Dancer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen text-gray-800 font-sans">
+
+  <header class="bg-blue-600 text-white p-6 text-center">
+    <h1 class="text-3xl font-bold">Dyslex Dancer</h1>
+    <p class="text-lg">Gamified Learning for Dyslexic Students</p>
+  </header>
+
+  <main class="p-6 max-w-3xl mx-auto text-center">
+    <h2 class="text-xl font-semibold mb-4">🧠 Memory Match Game</h2>
+    
+    <div class="mb-4">
+      <label for="level" class="mr-2 font-medium">Choose Level:</label>
+      <select id="level" class="p-2 rounded border">
+        <option value="easy">Easy (4 pairs)</option>
+        <option value="medium">Medium (6 pairs)</option>
+        <option value="hard">Hard (8 pairs)</option>
+      </select>
+      <button onclick="startGame()" class="ml-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Start Game</button>
+    </div>
+
+    <div class="mb-4 font-semibold">Score: <span id="score">0</span></div>
+    <div id="game" class="grid grid-cols-4 gap-4 justify-center"></div>
+  </main>
+
+  <script>
+    const wordBank = ['cat', 'bat', 'hat', 'mat', 'sun', 'fun', 'run', 'pen', 'ten', 'hen'];
+    let currentLevel = 'easy';
+    let score = 0;
+    let matchedPairs = 0;
+    let totalPairs = 0;
+    let firstCard = null;
+    let lockBoard = false;
+
+    const levelSelect = document.getElementById('level');
+    const scoreDisplay = document.getElementById('score');
+    const gameBoard = document.getElementById('game');
+
+    levelSelect.addEventListener('change', () => {
+      currentLevel = levelSelect.value;
+    });
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function createCard(word) {
+      const btn = document.createElement('button');
+      btn.className = "bg-white border border-blue-300 p-4 text-lg rounded shadow hover:bg-blue-100";
+      btn.textContent = "❓";
+      btn.dataset.word = word;
+
+      btn.onclick = () => {
+        if (lockBoard || btn.classList.contains('matched') || btn === firstCard) return;
+
+        btn.textContent = word;
+
+        if (!firstCard) {
+          firstCard = btn;
+        } else {
+          if (firstCard.dataset.word === btn.dataset.word) {
+            btn.classList.add('matched', 'bg-green-200');
+            firstCard.classList.add('matched', 'bg-green-200');
+            matchedPairs++;
+            score += 10;
+            scoreDisplay.textContent = score;
+            if (matchedPairs === totalPairs) {
+              setTimeout(() => {
+                alert(`🎉 Level complete! Score: ${score}`);
+              }, 300);
+            }
+            firstCard = null;
+          } else {
+            lockBoard = true;
+            setTimeout(() => {
+              btn.textContent = "❓";
+              firstCard.textContent = "❓";
+              firstCard = null;
+              lockBoard = false;
+            }, 1000);
+          }
+        }
+      };
+
+      return btn;
+    }
+
+    function startGame() {
+      gameBoard.innerHTML = '';
+      matchedPairs = 0;
+      firstCard = null;
+      lockBoard = false;
+      score = 0;
+      scoreDisplay.textContent = score;
+
+      let pairCount = currentLevel === 'easy' ? 4 : currentLevel === 'medium' ? 6 : 8;
+      totalPairs = pairCount;
+
+      const selectedWords = wordBank.slice(0, pairCount);
+      const cards = shuffle([...selectedWords, ...selectedWords]);
+
+      cards.forEach(word => {
+        gameBoard.appendChild(createCard(word));
+      });
+    }
+  </script>
+
+</body>
+</html>
